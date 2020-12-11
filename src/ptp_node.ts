@@ -1,14 +1,32 @@
 export interface PtpNode {
-    name: string
-    address: string
-    latlng: any
-    lat: string
-    lon: string
-    node: string
-    status: string
-    updated: bigint
-    wikiurl: string
+    node: string;
+    nodename: string;
+    hostname: string;
+    description: string;
+    notes: string;
+    status: string;
+    splashpageversion: string;
+    logo: string;
+    device: string;
+    bridge: string;
+    filter: string;
+    pubaddr: string;
+    pubmasklen: number;
+    privaddr: string;
+    privmasklen: number;
+    dhcpstart: number;
+    address: string;
+    lat: string;
+    lon: string;
+    url: string;
+    rss: string;
+    twitter: string;
+    wikiurl: string;
+    updated: number;
+
+    latlng: any // leaflet L.latlng
 }
+
 /*
         "node": "BuffaloGap",
         "nodename": "Buffalo Gap Saloon and Eatery",
