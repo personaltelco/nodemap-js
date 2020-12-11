@@ -1,6 +1,5 @@
-
-declare var L: any;
-declare var dayjs: any;
+declare var L: any; // leaflet
+declare var dayjs: any; // dayjs
 
 import type { PtpNode } from "./ptp_node"
 
