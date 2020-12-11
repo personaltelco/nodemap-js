@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "allowJs": false,
-    "outFile": "build/app.js"
+    "outFile": "build/app.js",
+    "module": "amd",
+    "strict": false
   },
   "include": ["src/**/*"]
 }

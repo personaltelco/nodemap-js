@@ -1,13 +1,19 @@
+
 declare var L: any;
 declare var dayjs: any;
 
-function loaded() {
+import type { PtpNode } from "./ptp_node"
+
+export function loaded() {
     let url = 'https://personaltelco.net/api/v0/hosts'
     message(`loading ${url}`) 
     let map = mapinit()    
     fetch(url)
      .then(response => response.json())
-     .then(data => setup(map, data.data));
+     .then(data => {
+        let nodes: PtpNode[] = data.data.map(node => node[Object.keys(node)[0]]) //invert object layout
+        setup(map, nodes)
+    })
 }
 
 function ptplatlng(node) {
@@ -20,32 +26,6 @@ function ptplatlng(node) {
     }
 }
 
-/*
-        "node": "BuffaloGap",
-        "nodename": "Buffalo Gap Saloon and Eatery",
-        "hostname": "dave",
-        "description": "Buffalo Gap Saloon and Eatery",
-        "notes": "",
-        "status": "active",
-        "splashpageversion": "2014",
-        "logo": "BuffaloGap.png",
-        "device": "ERX",
-        "bridge": "0",
-        "filter": "BOTH",
-        "pubaddr": "10.11.9.1",
-        "pubmasklen": 25,
-        "privaddr": "192.168.11.1",
-        "privmasklen": 24,
-        "dhcpstart": 100,
-        "address": "6835 SW Macadam Ave, Portland, OR 97219",
-        "lat": "45.47452",
-        "lon": "-122.6719",
-        "url": "http://www.thebuffalogap.com/",
-        "rss": "http://www.reverbnation.com/controller/rss/venue_shows_rss/buffalogapsaloon",
-        "twitter": "thebuffalogap",
-        "wikiurl": "https://personaltelco.net/wiki/NodeBuffaloGap",
-        "updated": 1570247874974
-*/
 function make_marker(node) {
     let marker = L.marker(node.latlng)
     let node_date = dayjs(node.updated)
@@ -72,8 +52,7 @@ function find_bounding_box(nodes) {
     return [[minLat, minLng], [maxLat, maxLng]]
 }
 
-function setup(map, hash_nodes) {
-    let all_nodes = hash_nodes.map(node => node[Object.keys(node)[0]]) //invert object layout
+function setup(map, all_nodes: PtpNode[]) {
     all_nodes.forEach(node => node.latlng = ptplatlng(node))
     let location_nodes = all_nodes.filter(node => node.latlng)
     let active_nodes = all_nodes.filter(node => node.status == "active")
