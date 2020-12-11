@@ -11,12 +11,12 @@ export function loaded() {
     fetch(url)
      .then(response => response.json())
      .then(data => {
-        let nodes: PtpNode[] = data.data.map(node => node[Object.keys(node)[0]]) //invert object layout
+        let nodes: PtpNode[] = data.data.map((node: any) => node[Object.keys(node)[0]]) //invert object layout
         setup(map, nodes)
     })
 }
 
-function ptplatlng(node) {
+function ptplatlng(node: PtpNode) {
     if(node) {
         let lat = parseFloat(node.lat)
         let lng = parseFloat(node.lon)
@@ -26,18 +26,21 @@ function ptplatlng(node) {
     }
 }
 
-function make_marker(node) {
+function make_marker(node: PtpNode) {
     let marker = L.marker(node.latlng)
     let node_date = dayjs(node.updated)
     marker.bindPopup(`<b><a href="${node.wikiurl}">${node.node}</a></b><br>${node.address}<br>last updated: ${node_date.format('YYYY-MM-DD')}`)
     return marker
 }
 
-function message(msg) {
-    document.getElementById("status").innerHTML = msg   
+function message(msg: string) {
+    let status = document.getElementById("status")
+    if (status) {
+      status.innerHTML = msg   
+    }
 }
 
-function find_bounding_box(nodes) {
+function find_bounding_box(nodes: PtpNode[]) {
     var minLat = 90
     var minLng = 180
     var maxLat = -90
@@ -52,7 +55,7 @@ function find_bounding_box(nodes) {
     return [[minLat, minLng], [maxLat, maxLng]]
 }
 
-function setup(map, all_nodes: PtpNode[]) {
+function setup(map: any, all_nodes: PtpNode[]) {
     all_nodes.forEach(node => node.latlng = ptplatlng(node))
     let location_nodes = all_nodes.filter(node => node.latlng)
     let active_nodes = all_nodes.filter(node => node.status == "active")

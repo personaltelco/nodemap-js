@@ -3,7 +3,7 @@
     "allowJs": false,
     "outDir": "build",
     "target": "es6",
-    "strict": false
+    "strict": true
   },
   "include": ["src/**/*"]
 }

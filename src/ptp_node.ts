@@ -1,7 +1,13 @@
 export interface PtpNode {
     name: string
+    address: string
     latlng: any
+    lat: string
+    lon: string
+    node: string
     status: string
+    updated: bigint
+    wikiurl: string
 }
 /*
         "node": "BuffaloGap",
