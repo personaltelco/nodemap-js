@@ -1,7 +1,6 @@
 .PHONY: build upload
 
-build:
-	cp src/app.js build/
+build: tsc
 	cp index.html style.css build/
 tsc: 
 	npm run tsc
